@@ -229,7 +229,7 @@ void UpdateTime() {
     if (first)
         firsttime = newtime;
     elapsedtime *= timecompression;
-    // VS_LOG(trace, (boost::format("lin_time.cpp: UpdateTime():                                  elapsedtime after  time compression is %1%") % elapsedtime));
+    // VS_LOG(trace, (boost::format("lin_time.cpp: UpdateTime():                                elapsedtime after  time compression is %1%") % elapsedtime));
     first = false;
 }
 
