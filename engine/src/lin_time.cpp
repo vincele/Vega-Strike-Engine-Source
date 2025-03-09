@@ -29,6 +29,13 @@
 #include "vs_logging.h"
 
 static double firsttime;
+static double newtime;
+static double lasttime;
+static double elapsedtime = .1;
+static double timecompression = 1;
+
+int timecount;
+
 VSRandom vsrandom(time(NULL));
 
 #if !defined WIN32 && !defined _POSIX_MONOTONIC_CLOCK && !defined HAVE_GETTIMEOFDAY && !defined HAVE_SDL
@@ -43,22 +50,14 @@ VSRandom vsrandom(time(NULL));
 static LARGE_INTEGER li_ttime{};
 static LARGE_INTEGER li_newtime{};
 static LARGE_INTEGER li_freq{};
-static double newtime;
-static double lasttime;
 #else // WIN32
 #if defined (HAVE_SDL)
 #   include <SDL2/SDL.h>
 #endif /* defined( HAVE_SDL ) */
-static double newtime;
-static double lasttime;
-
 #include <sys/time.h>
 #include <sys/types.h>
 #include <unistd.h>
 #endif // WIN32
-
-static double elapsedtime = .1;
-static double timecompression = 1;
 
 double getNewTime() {
 #ifdef _WIN32
@@ -67,8 +66,6 @@ double getNewTime() {
     return newtime - firsttime;
 #endif
 }
-
-int timecount;
 
 void inc_time_compression(const KBData &, KBSTATE a) {
     if (a == PRESS) {
