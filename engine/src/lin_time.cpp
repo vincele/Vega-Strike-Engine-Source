@@ -258,12 +258,6 @@ void UpdateTime() {
     } else {
         dblnewtime = static_cast<double>(ticks.QuadPart);
     }
-    double dblttime = 0;
-    if (freq.QuadPart > 0) {
-        dblttime = static_cast<double>(ttime.QuadPart) / static_cast<double>(freq.QuadPart);
-    } else {
-        dblttime = static_cast<double>(ttime.QuadPart);
-    }
     elapsedtime = (dblnewtime - lasttime);
     ttime = newtime;
     if (first)
