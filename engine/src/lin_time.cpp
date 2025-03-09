@@ -40,9 +40,9 @@ VSRandom vsrandom(time(NULL));
 #define NOMINMAX
 #endif //tells VCC not to generate min/max macros
 #include <windows.h>
-static LARGE_INTEGER ttime{};
-static LARGE_INTEGER newtime{};
-static LARGE_INTEGER freq{};
+static LARGE_INTEGER li_ttime{};
+static LARGE_INTEGER li_newtime{};
+static LARGE_INTEGER li_freq{};
 static double dblnewtime;
 static double lasttime;
 #else // WIN32
@@ -158,8 +158,8 @@ static double get_time() {
     LARGE_INTEGER ticks;
     QueryPerformanceCounter(&ticks);
     double time = static_cast<double>(ticks.QuadPart);
-    if (freq.QuadPart > 0) {
-        time /= static_cast<double>(freq.QuadPart);
+    if (li_freq.QuadPart > 0) {
+        time /= static_cast<double>(li_freq.QuadPart);
     }
     return time;
 }
@@ -188,15 +188,15 @@ static double get_time() {
 void InitTime() {
     VS_LOG(trace, "InitTime() called");
 #ifdef WIN32
-    QueryPerformanceFrequency(&freq);
-    if (freq.QuadPart == 0) {
-        VS_LOG(serious_warning, "InitTime(): freq is zero!");
+    QueryPerformanceFrequency(&li_freq);
+    if (li_freq.QuadPart == 0) {
+        VS_LOG(serious_warning, "InitTime(): li_freq is zero!");
     }
-    QueryPerformanceCounter(&ttime);
+    QueryPerformanceCounter(&li_ttime);
     if (freq.QuadPart == 0) {
-        dblnewtime = static_cast<double>(ttime.QuadPart);
+        dblnewtime = static_cast<double>(li_ttime.QuadPart);
     } else {
-        dblnewtime = static_cast<double>(ttime.QuadPart) / static_cast<double>(freq.QuadPart);
+        dblnewtime = static_cast<double>(li_ttime.QuadPart) / static_cast<double>(li_freq.QuadPart);
     }
     lasttime = dblnewtime - .0001;
 
@@ -234,7 +234,7 @@ void UpdateTime() {
     lasttime = dblnewtime;
     dblnewtime = get_time();
     elapsedtime = (dblnewtime - lasttime);
-    ttime = newtime;
+    li_ttime = li_newtime;
     if (first)
     {
         firsttime = dblnewtime;
