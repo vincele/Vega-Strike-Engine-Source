@@ -854,10 +854,6 @@ namespace UniverseUtil {
         return ::tan(x);
     }
 
-    void micro_sleep(int n) {
-        ::micro_sleep(n);
-    }
-
     string getSaveDir() {
         return GetSaveDir();
     }
