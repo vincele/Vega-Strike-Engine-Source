@@ -43,7 +43,7 @@ VSRandom vsrandom(time(NULL));
 static LARGE_INTEGER li_ttime{};
 static LARGE_INTEGER li_newtime{};
 static LARGE_INTEGER li_freq{};
-static double dblnewtime;
+static double newtime;
 static double lasttime;
 #else // WIN32
 #if defined (HAVE_SDL)
@@ -62,7 +62,7 @@ static double timecompression = 1;
 
 double getNewTime() {
 #ifdef _WIN32
-    return dblnewtime-firsttime;
+    return newtime-firsttime;
 #else
     return newtime - firsttime;
 #endif
@@ -194,11 +194,11 @@ void InitTime() {
     }
     QueryPerformanceCounter(&li_ttime);
     if (freq.QuadPart == 0) {
-        dblnewtime = static_cast<double>(li_ttime.QuadPart);
+        newtime = static_cast<double>(li_ttime.QuadPart);
     } else {
-        dblnewtime = static_cast<double>(li_ttime.QuadPart) / static_cast<double>(li_freq.QuadPart);
+        newtime = static_cast<double>(li_ttime.QuadPart) / static_cast<double>(li_freq.QuadPart);
     }
-    lasttime = dblnewtime - .0001;
+    lasttime = newtime - .0001;
 
 #else
     newtime  = get_time();
@@ -231,13 +231,13 @@ double realTime() {
 void UpdateTime() {
     static bool first = true;
 #ifdef WIN32
-    lasttime = dblnewtime;
-    dblnewtime = get_time();
-    elapsedtime = (dblnewtime - lasttime);
+    lasttime = newtime;
+    newtime = get_time();
+    elapsedtime = (newtime - lasttime);
     li_ttime = li_newtime;
     if (first)
     {
-        firsttime = dblnewtime;
+        firsttime = newtime;
     }
 #else
     lasttime    = newtime;
