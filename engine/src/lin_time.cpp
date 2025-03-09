@@ -213,13 +213,7 @@ double GetElapsedTime() {
 }
 
 double queryTime() {
-#ifdef WIN32
-    double tmpnewtime = get_time();
-    return tmpnewtime - firsttime;
-#else
-    double tmpnewtime = get_time();
-    return tmpnewtime-firsttime;
-#endif
+    return get_time() - firsttime;
 }
 
 double realTime() {
