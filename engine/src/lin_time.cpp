@@ -22,7 +22,6 @@
  * along with Vega Strike. If not, see <https://www.gnu.org/licenses/>.
  */
 
-
 #include "vegastrike.h"
 #include "in_kb.h"
 #include "vs_random.h"
@@ -237,4 +236,3 @@ void setNewTime(double newnewtime) {
     firsttime -= newnewtime - queryTime();
     UpdateTime();
 }
-
