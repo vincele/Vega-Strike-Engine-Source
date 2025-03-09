@@ -60,11 +60,7 @@ static LARGE_INTEGER li_freq{};
 #endif // WIN32
 
 double getNewTime() {
-#ifdef _WIN32
-    return newtime-firsttime;
-#else
     return newtime - firsttime;
-#endif
 }
 
 void inc_time_compression(const KBData &, KBSTATE a) {
