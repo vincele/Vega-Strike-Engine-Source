@@ -191,13 +191,10 @@ void InitTime() {
     } else {
         newtime = static_cast<double>(li_ttime.QuadPart) / static_cast<double>(li_freq.QuadPart);
     }
-    lasttime = newtime - .0001;
-
 #else
     newtime  = get_time();
-    lasttime = newtime-.0001;
-
 #endif
+    lasttime = newtime - .0001;
     elapsedtime = .0001;
 }
 
