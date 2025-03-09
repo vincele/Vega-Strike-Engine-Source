@@ -45,7 +45,7 @@ static LARGE_INTEGER newtime{};
 static LARGE_INTEGER freq{};
 static double dblnewtime;
 static double lasttime;
-#else
+#else // WIN32
 #if defined (HAVE_SDL)
 #   include <SDL2/SDL.h>
 #endif /* defined( HAVE_SDL ) */
@@ -55,7 +55,8 @@ static double lasttime;
 #include <sys/time.h>
 #include <sys/types.h>
 #include <unistd.h>
-#endif
+#endif // WIN32
+
 static double elapsedtime = .1;
 static double timecompression = 1;
 
