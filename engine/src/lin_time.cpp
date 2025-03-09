@@ -217,13 +217,11 @@ double queryTime() {
 }
 
 double realTime() {
-#ifdef WIN32
     double tmpnewtime = get_time();
+#ifdef WIN32
     if (tmpnewtime == INFINITY) {
         tmpnewtime = 0;
     }
-#else
-    double tmpnewtime = get_time();
 #endif
 
     static double reallyfirsttime = tmpnewtime;
