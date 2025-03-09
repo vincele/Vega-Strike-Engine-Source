@@ -223,22 +223,14 @@ double realTime() {
 
 void UpdateTime() {
     static bool first = true;
-#ifdef WIN32
     lasttime = newtime;
     newtime = get_time();
-    elapsedtime = (newtime - lasttime);
+    elapsedtime = newtime - lasttime;
+#ifdef WIN32
     li_ttime = li_newtime;
-    if (first)
-    {
-        firsttime = newtime;
-    }
-#else
-    lasttime    = newtime;
-    newtime     = get_time();
-    elapsedtime = newtime-lasttime;
-    if (first)
-        firsttime = newtime;
 #endif
+    if (first)
+        firsttime = newtime;
     elapsedtime *= timecompression;
     // VS_LOG(trace, (boost::format("lin_time.cpp: UpdateTime():                                  elapsedtime after  time compression is %1%") % elapsedtime));
     first = false;
