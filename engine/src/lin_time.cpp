@@ -154,6 +154,16 @@ void micro_sleep(unsigned int n) {
 
 #ifdef _WIN32
 
+static double get_time() {
+    LARGE_INTEGER ticks;
+    QueryPerformanceCounter(&ticks);
+    double time = static_cast<double>(ticks.QuadPart);
+    if (freq.QuadPart > 0) {
+        time /= static_cast<double>(freq.QuadPart);
+    }
+    return time;
+}
+
 #else // _WIN32
 
 static double get_time() {
@@ -204,14 +214,7 @@ double GetElapsedTime() {
 
 double queryTime() {
 #ifdef WIN32
-    LARGE_INTEGER ticks;
-    QueryPerformanceCounter(&ticks);
-    double tmpnewtime = 0;
-    if (freq.QuadPart > 0) {
-        tmpnewtime = static_cast<double>(ticks.QuadPart) / static_cast<double>(freq.QuadPart);
-    } else {
-        tmpnewtime = static_cast<double>(ticks.QuadPart);
-    }
+    double tmpnewtime = get_time();
     return tmpnewtime - firsttime;
 #else
     double tmpnewtime = get_time();
@@ -221,14 +224,7 @@ double queryTime() {
 
 double realTime() {
 #ifdef WIN32
-    LARGE_INTEGER ticks;
-    QueryPerformanceCounter(&ticks);
-    double tmpnewtime = 0;
-    if (freq.QuadPart > 0) {
-        tmpnewtime = static_cast<double>(ticks.QuadPart) / static_cast<double>(freq.QuadPart);
-    } else {
-        tmpnewtime = static_cast<double>(ticks.QuadPart);
-    }
+    double tmpnewtime = get_time();
     if (tmpnewtime == INFINITY) {
         tmpnewtime = 0;
     }
@@ -243,14 +239,8 @@ double realTime() {
 void UpdateTime() {
     static bool first = true;
 #ifdef WIN32
-    LARGE_INTEGER ticks;
-    QueryPerformanceCounter(&ticks);
     lasttime = dblnewtime;
-    if (freq.QuadPart > 0) {
-        dblnewtime = static_cast<double>(ticks.QuadPart) / static_cast<double>(freq.QuadPart);
-    } else {
-        dblnewtime = static_cast<double>(ticks.QuadPart);
-    }
+    dblnewtime = get_time();
     elapsedtime = (dblnewtime - lasttime);
     ttime = newtime;
     if (first)
